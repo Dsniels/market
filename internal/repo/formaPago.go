@@ -1,9 +1,22 @@
 package repo
 
-import "github.com/dsniels/market/internal/types"
+import (
+	"github.com/dsniels/market/core/types"
+	"gorm.io/gorm"
+)
 
-type IFormaPago interface{}
+type IFormaPago interface{
+	IGeneric[types.FormaPago]
+}
 
 type FormaPago struct {
-	*GenericRepo[types.FormaPago]
+	*Generic[types.FormaPago]
+}
+
+func NewFormaPago(db *gorm.DB) *FormaPago {
+	g := NewGeneric[types.FormaPago](db)
+	return &FormaPago{
+		Generic: g,
+	}
+
 }

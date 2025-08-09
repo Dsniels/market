@@ -1,21 +1,23 @@
 package repo
 
 import (
-	"github.com/dsniels/market/internal/types"
+	"github.com/dsniels/market/core/types"
 	"gorm.io/gorm"
 )
 
-type ICategoriaRepo interface {
-	IGenericRepo[types.Categoria]
+type ICategoria interface {
+	IGeneric[types.Categoria]
 }
 
-type CategoriaRepo struct {
+type Categoria struct {
 	db *gorm.DB
-	GenericRepo[types.Categoria]
+	*Generic[types.Categoria]
 }
 
-func NewCategoriaRepo(db *gorm.DB) *CategoriaRepo {
-	return &CategoriaRepo{
-		db: db,
+func NewCategoria(db *gorm.DB) *Categoria {
+	g := NewGeneric[types.Categoria](db)
+	return &Categoria{
+		db:      db,
+		Generic: g,
 	}
 }

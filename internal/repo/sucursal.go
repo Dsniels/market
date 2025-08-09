@@ -1,8 +1,18 @@
 package repo
 
-import "github.com/dsniels/market/internal/types"
+import (
+	"github.com/dsniels/market/core/types"
+	"gorm.io/gorm"
+)
 
 type ISucursal interface{}
 type Sucursal struct {
-	*GenericRepo[types.Sucursal]
+	*Generic[types.Sucursal]
+}
+
+func NewSucursal(db *gorm.DB) *Sucursal {
+	g := NewGeneric[types.Sucursal](db)
+	return &Sucursal{
+		Generic: g,
+	}
 }
