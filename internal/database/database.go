@@ -5,7 +5,7 @@ import (
 	"log/slog"
 	"os"
 
-	"github.com/dsniels/market/internal/types"
+	"github.com/dsniels/market/core/types"
 	"gorm.io/driver/sqlserver"
 	"gorm.io/gorm"
 )
@@ -22,7 +22,7 @@ func Connect() *gorm.DB {
 	)
 	db, err := gorm.Open(sqlserver.Open(url), &gorm.Config{})
 	if err != nil {
-		slog.Error("Open Database: %v", err.Error())
+		slog.Error("Open Database", err.Error())
 		panic(err)
 	}
 

@@ -5,34 +5,33 @@ import (
 	"log/slog"
 	"net/http"
 
+	"github.com/dsniels/market/internal/api"
 	"github.com/dsniels/market/internal/api/router"
-	"github.com/dsniels/market/internal/database"
+	"github.com/joho/godotenv"
 )
 
 func main() {
 	var port string
 	flag.StringVar(&port, "port", "80", "port to run server")
 	flag.Parse()
+	godotenv.Load()
 
-	slog.Info("Starting Server")
+	panic(runServer(port))
+}
 
-	db := database.Connect()
-	err := database.Migrate(db)
-	if err != nil{
-		slog.Error("Migrating database", slog.Any("error",err))
-		panic(err)
-	}
-
-	router := router.InitRoutes()
+func runServer(port string) error {
+	app := api.NewApp()
+	r := router.InitRoutes(app)
 	server := &http.Server{
 		Addr:    ":" + port,
-		Handler: router,
+		Handler: router.ErrorMiddleware(r),
 	}
-
 	slog.Info("Server running", slog.String("port", port))
 	if err := server.ListenAndServe(); err != nil {
-		slog.Error("Running server: ")
-		panic(err)
+		slog.Error("Failed to start server: ")
+		return err
 	}
+
+	return nil
 
 }
