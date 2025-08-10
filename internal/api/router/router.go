@@ -10,7 +10,6 @@ import (
 func InitRoutes(a *api.App) http.Handler {
 	route := http.NewServeMux()
 
-	route.HandleFunc("GET /swagger/", httpSwagger.WrapHandler)
 	route.HandleFunc("GET /Product/GetAll", a.Product.GetProductsHandler)
 	route.HandleFunc("GET /Product/GetByID/{id}", a.Product.GetProductHandler)
 	route.HandleFunc("POST /Product/Create", a.Product.CreateProductHandler)
@@ -34,5 +33,6 @@ func InitRoutes(a *api.App) http.Handler {
 
 	router := http.NewServeMux()
 	router.Handle("/api", route)
+	router.HandleFunc("GET /swagger/", httpSwagger.WrapHandler)
 	return router
 }
