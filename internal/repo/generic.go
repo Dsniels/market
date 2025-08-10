@@ -8,6 +8,7 @@ import (
 
 type IGeneric[T any] interface {
 	Create(context.Context, *T) error
+	Update(t *T) (*T, error)
 	Delete(context.Context, uint) error
 	GetList(context.Context) (*[]T, error)
 	GetById(context.Context, uint) (*T, error)
@@ -26,7 +27,6 @@ func (g *Generic[T]) Create(ctx context.Context, record *T) error {
 }
 
 func (g *Generic[T]) Delete(ctx context.Context, id uint) error {
-
 	_, err := gorm.G[T](g.db).Where("id = ?", id).Delete(ctx)
 	if err != nil {
 		return err
@@ -50,6 +50,13 @@ func (g *Generic[T]) GetById(ctx context.Context, id uint) (*T, error) {
 	return &record, nil
 }
 
+func (p *Generic[T]) Update(t *T) (*T, error) {
+	err := p.db.Save(t).Error
+	if err != nil {
+		return nil, err
+	}
+	return t, err
+}
 func NewGeneric[T any](db *gorm.DB) *Generic[T] {
 	return &Generic[T]{
 		db,

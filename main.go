@@ -2,9 +2,11 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log/slog"
 	"net/http"
 
+	_ "github.com/dsniels/market/docs"
 	"github.com/dsniels/market/internal/api"
 	"github.com/dsniels/market/internal/api/router"
 	"github.com/joho/godotenv"
@@ -26,7 +28,7 @@ func runServer(port string) error {
 		Addr:    ":" + port,
 		Handler: router.ErrorMiddleware(r),
 	}
-	slog.Info("Server running", slog.String("port", port))
+	slog.Info("Server running", slog.String("port", port), slog.String("swagger", fmt.Sprintf("http://localhost:%s/swagger/index.html#/", port)))
 	if err := server.ListenAndServe(); err != nil {
 		slog.Error("Failed to start server: ")
 		return err

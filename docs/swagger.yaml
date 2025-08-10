@@ -1,9 +1,25 @@
 definitions:
+  dto.ProductoComp:
+    properties:
+      id:
+        type: integer
+      producto_compuesto:
+        $ref: '#/definitions/types.Producto'
+      producto_principal:
+        $ref: '#/definitions/types.Producto'
+    type: object
   pkg.Body-array_types_Categoria:
     properties:
       data:
         items:
           $ref: '#/definitions/types.Categoria'
+        type: array
+    type: object
+  pkg.Body-array_types_FormaPago:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/types.FormaPago'
         type: array
     type: object
   pkg.Body-array_types_Producto:
@@ -12,6 +28,18 @@ definitions:
         items:
           $ref: '#/definitions/types.Producto'
         type: array
+    type: object
+  pkg.Body-array_types_ProductoCompuesto:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/types.ProductoCompuesto'
+        type: array
+    type: object
+  pkg.Body-dto_ProductoComp:
+    properties:
+      data:
+        $ref: '#/definitions/dto.ProductoComp'
     type: object
   pkg.Body-string:
     properties:
@@ -23,12 +51,29 @@ definitions:
       data:
         $ref: '#/definitions/types.Categoria'
     type: object
+  pkg.Body-types_FormaPago:
+    properties:
+      data:
+        $ref: '#/definitions/types.FormaPago'
+    type: object
   pkg.Body-types_Producto:
     properties:
       data:
         $ref: '#/definitions/types.Producto'
     type: object
+  pkg.Body-types_ProductoCompuesto:
+    properties:
+      data:
+        $ref: '#/definitions/types.ProductoCompuesto'
+    type: object
   types.Categoria:
+    properties:
+      id:
+        type: integer
+      nombre:
+        type: string
+    type: object
+  types.FormaPago:
     properties:
       id:
         type: integer
@@ -50,10 +95,19 @@ definitions:
       stock:
         type: boolean
     type: object
+  types.ProductoCompuesto:
+    properties:
+      id:
+        type: integer
+      productoComponenteID:
+        type: integer
+      productoPrincipalID:
+        type: integer
+    type: object
 info:
   contact: {}
 paths:
-  /Categoria/:
+  /Categoria/Create:
     post:
       consumes:
       - application/json
@@ -128,7 +182,82 @@ paths:
       summary: Get categorias
       tags:
       - categorias
-  /Product/:
+  /FormaPago/Create:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: FormaPago data
+        in: body
+        name: FormaPago
+        required: true
+        schema:
+          $ref: '#/definitions/types.FormaPago'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/pkg.Body-types_FormaPago'
+      summary: Create a FormaPago
+      tags:
+      - FormaPago
+  /FormaPago/DeleteByID/{id}:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: FormaPago ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/pkg.Body-string'
+      summary: Delete a FormaPago by ID
+      tags:
+      - FormaPago
+  /FormaPago/GetAll:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/pkg.Body-array_types_FormaPago'
+      summary: Get FormaPago
+      tags:
+      - FormaPago
+  /FormaPago/GetByID/{id}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: FormaPago ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/pkg.Body-types_FormaPago'
+      summary: Get FormaPago
+      tags:
+      - FormaPago
+  /Product/Create:
     post:
       consumes:
       - application/json
@@ -200,6 +329,107 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/pkg.Body-types_Producto'
+      summary: Get a product by ID
+      tags:
+      - products
+  /Product/Update/{id}:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Product data
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/types.Producto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/pkg.Body-types_Producto'
+      summary: Update a product
+      tags:
+      - products
+  /ProductComp/Create:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Product data
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/types.ProductoCompuesto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/pkg.Body-types_ProductoCompuesto'
+      summary: Create a new productComp
+      tags:
+      - products
+  /ProductComp/DeleteByID/{id}:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/pkg.Body-string'
+      summary: Delete a productComp by ID
+      tags:
+      - products
+  /ProductComp/GetAll:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/pkg.Body-array_types_ProductoCompuesto'
+      summary: Get all products
+      tags:
+      - products
+  /ProductComp/GetByID/{id}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/pkg.Body-dto_ProductoComp'
       summary: Get a product by ID
       tags:
       - products

@@ -4,7 +4,7 @@
         "contact": {}
     },
     "paths": {
-        "/Categoria/": {
+        "/Categoria/Create": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -121,7 +121,124 @@
                 }
             }
         },
-        "/Product/": {
+        "/FormaPago/Create": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "FormaPago"
+                ],
+                "summary": "Create a FormaPago",
+                "parameters": [
+                    {
+                        "description": "FormaPago data",
+                        "name": "FormaPago",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/types.FormaPago"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pkg.Body-types_FormaPago"
+                        }
+                    }
+                }
+            }
+        },
+        "/FormaPago/DeleteByID/{id}": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "FormaPago"
+                ],
+                "summary": "Delete a FormaPago by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "FormaPago ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pkg.Body-string"
+                        }
+                    }
+                }
+            }
+        },
+        "/FormaPago/GetAll": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "FormaPago"
+                ],
+                "summary": "Get FormaPago",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pkg.Body-array_types_FormaPago"
+                        }
+                    }
+                }
+            }
+        },
+        "/FormaPago/GetByID/{id}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "FormaPago"
+                ],
+                "summary": "Get FormaPago",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "FormaPago ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pkg.Body-types_FormaPago"
+                        }
+                    }
+                }
+            }
+        },
+        "/Product/Create": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -237,9 +354,180 @@
                     }
                 }
             }
+        },
+        "/Product/Update/{id}": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "products"
+                ],
+                "summary": "Update a product",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Product ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Product data",
+                        "name": "product",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/types.Producto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pkg.Body-types_Producto"
+                        }
+                    }
+                }
+            }
+        },
+        "/ProductComp/Create": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "products"
+                ],
+                "summary": "Create a new productComp",
+                "parameters": [
+                    {
+                        "description": "Product data",
+                        "name": "product",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/types.ProductoCompuesto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pkg.Body-types_ProductoCompuesto"
+                        }
+                    }
+                }
+            }
+        },
+        "/ProductComp/DeleteByID/{id}": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "products"
+                ],
+                "summary": "Delete a productComp by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Product ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pkg.Body-string"
+                        }
+                    }
+                }
+            }
+        },
+        "/ProductComp/GetAll": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "products"
+                ],
+                "summary": "Get all products",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pkg.Body-array_types_ProductoCompuesto"
+                        }
+                    }
+                }
+            }
+        },
+        "/ProductComp/GetByID/{id}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "products"
+                ],
+                "summary": "Get a product by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Product ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pkg.Body-dto_ProductoComp"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "dto.ProductoComp": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "producto_compuesto": {
+                    "$ref": "#/definitions/types.Producto"
+                },
+                "producto_principal": {
+                    "$ref": "#/definitions/types.Producto"
+                }
+            }
+        },
         "pkg.Body-array_types_Categoria": {
             "type": "object",
             "properties": {
@@ -247,6 +535,17 @@
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/types.Categoria"
+                    }
+                }
+            }
+        },
+        "pkg.Body-array_types_FormaPago": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/types.FormaPago"
                     }
                 }
             }
@@ -259,6 +558,25 @@
                     "items": {
                         "$ref": "#/definitions/types.Producto"
                     }
+                }
+            }
+        },
+        "pkg.Body-array_types_ProductoCompuesto": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/types.ProductoCompuesto"
+                    }
+                }
+            }
+        },
+        "pkg.Body-dto_ProductoComp": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/dto.ProductoComp"
                 }
             }
         },
@@ -278,6 +596,14 @@
                 }
             }
         },
+        "pkg.Body-types_FormaPago": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/types.FormaPago"
+                }
+            }
+        },
         "pkg.Body-types_Producto": {
             "type": "object",
             "properties": {
@@ -286,7 +612,26 @@
                 }
             }
         },
+        "pkg.Body-types_ProductoCompuesto": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/types.ProductoCompuesto"
+                }
+            }
+        },
         "types.Categoria": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "nombre": {
+                    "type": "string"
+                }
+            }
+        },
+        "types.FormaPago": {
             "type": "object",
             "properties": {
                 "id": {
@@ -317,6 +662,20 @@
                 },
                 "stock": {
                     "type": "boolean"
+                }
+            }
+        },
+        "types.ProductoCompuesto": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "productoComponenteID": {
+                    "type": "integer"
+                },
+                "productoPrincipalID": {
+                    "type": "integer"
                 }
             }
         }

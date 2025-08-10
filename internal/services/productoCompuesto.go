@@ -3,24 +3,40 @@ package services
 import (
 	"context"
 
+	"github.com/dsniels/market/core/dto"
 	"github.com/dsniels/market/core/types"
 	"github.com/dsniels/market/internal/repo"
 )
 
 type ProductoComp struct {
-	repo repo.IProductoComp
+	productoSvc IProducto
+	repo        repo.IProductoComp
 }
 
 type IProductoComp interface {
-	CreateProductoComp(ctx context.Context, categoria *types.ProductoCompuesto) error
-	GetProductoComps(ctx context.Context) (*[]types.ProductoCompuesto, error)
-	GetProductoComp(ctx context.Context, id uint) (*types.ProductoCompuesto, error)
-	DeleteProductoComp(ctx context.Context, id uint) error
+	CreateProducto(ctx context.Context, producto *types.ProductoCompuesto) error
+	GetProductos(ctx context.Context) (*[]types.ProductoCompuesto, error)
+	GetProducto(ctx context.Context, id uint) (*dto.ProductoComp, error)
+	DeleteProducto(ctx context.Context, id uint) error
 }
 
-func (c *ProductoComp) CreateProducto(ctx context.Context, prod *types.ProductoCompuesto) error {
-	err := c.repo.Create(ctx, prod)
-	return err
+func (p *ProductoComp) CreateProducto(ctx context.Context, prod *types.ProductoCompuesto) error {
+	_, err := p.productoSvc.GetProducto(ctx, prod.ProductoComponenteID)
+	if err != nil {
+		return err
+	}
+
+	_, err = p.productoSvc.GetProducto(ctx, prod.ProductoPrincipalID)
+	if err != nil {
+		return err
+	}
+
+	err = p.repo.Create(ctx, prod)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (c *ProductoComp) GetProductos(ctx context.Context) (*[]types.ProductoCompuesto, error) {
@@ -31,12 +47,25 @@ func (c *ProductoComp) GetProductos(ctx context.Context) (*[]types.ProductoCompu
 	return list, err
 }
 
-func (c *ProductoComp) GetProducto(ctx context.Context, id uint) (*types.ProductoCompuesto, error) {
-	categoria, err := c.repo.GetById(ctx, id)
+func (p *ProductoComp) GetProducto(ctx context.Context, id uint) (*dto.ProductoComp, error) {
+	dto := new(dto.ProductoComp)
+	head, err := p.repo.GetById(ctx, id)
 	if err != nil {
 		return nil, err
 	}
-	return categoria, nil
+	principal, err := p.productoSvc.GetProducto(ctx, head.ProductoPrincipalID)
+	if err != nil {
+		return nil, err
+	}
+
+	comp, err := p.productoSvc.GetProducto(ctx, head.ProductoComponenteID)
+	if err != nil {
+		return nil, err
+	}
+	dto.ProductoCompuesto = comp
+	dto.ProductoPrincipal = principal
+	return dto, nil
+
 }
 
 func (c *ProductoComp) DeleteProducto(ctx context.Context, id uint) error {
