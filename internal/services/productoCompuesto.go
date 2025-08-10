@@ -40,7 +40,7 @@ func (c *ProductoComp) GetProducto(ctx context.Context, id uint) (*types.Product
 }
 
 func (c *ProductoComp) DeleteProducto(ctx context.Context, id uint) error {
-	_, err := c.repo.GetById(ctx, id)
+	err := c.repo.Delete(ctx, id)
 	if err != nil {
 		return err
 	}

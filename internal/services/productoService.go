@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/dsniels/market/core/types"
 	"github.com/dsniels/market/internal/repo"
@@ -10,7 +11,7 @@ import (
 
 type Producto struct {
 	repo         repo.IProducto
-	categoriaSvc Categoria
+	categoriaSvc ICategoria
 }
 
 type IProducto interface {
@@ -21,12 +22,12 @@ type IProducto interface {
 }
 
 func (p *Producto) CreateProducto(ctx context.Context, prod *types.Producto) error {
-	categoria, err := p.categoriaSvc.GetCategoria(ctx, prod.CategoriaID)
+	_, err := p.categoriaSvc.GetCategoria(ctx, prod.CategoriaID)
 	if err != nil {
+		if strings.Contains(err.Error(), "not found") {
+			return fmt.Errorf("categoria not found")
+		}
 		return err
-	}
-	if categoria == nil {
-		return fmt.Errorf("la categoria no existe")
 	}
 	err = p.repo.Create(ctx, prod)
 	return err
@@ -41,23 +42,24 @@ func (c *Producto) GetProductos(ctx context.Context) (*[]types.Producto, error) 
 }
 
 func (c *Producto) GetProducto(ctx context.Context, id uint) (*types.Producto, error) {
-	categoria, err := c.repo.GetById(ctx, id)
+	prod, err := c.repo.GetById(ctx, id)
 	if err != nil {
 		return nil, err
 	}
-	return categoria, nil
+	return prod, nil
 }
 
 func (c *Producto) DeleteProducto(ctx context.Context, id uint) error {
-	_, err := c.repo.GetById(ctx, id)
+	err := c.repo.Delete(ctx, id)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func NewProducto(repo repo.IProducto) *Producto {
+func NewProducto(repo repo.IProducto, categoriaSvc ICategoria) *Producto {
 	return &Producto{
-		repo: repo,
+		repo:         repo,
+		categoriaSvc: categoriaSvc,
 	}
 }

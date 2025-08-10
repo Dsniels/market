@@ -40,7 +40,7 @@ func (c *FormaPago) GetFormaPago(ctx context.Context, id uint) (*types.FormaPago
 }
 
 func (c *FormaPago) DeleteFormaPago(ctx context.Context, id uint) error {
-	_, err := c.repo.GetById(ctx, id)
+	err := c.repo.Delete(ctx, id)
 	if err != nil {
 		return err
 	}

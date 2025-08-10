@@ -40,7 +40,7 @@ func (c *Categoria) GetCategoria(ctx context.Context, id uint) (*types.Categoria
 }
 
 func (c *Categoria) DeleteCategoria(ctx context.Context, id uint) error {
-	_, err := c.repo.GetById(ctx, id)
+	err := c.repo.Delete(ctx, id)
 	if err != nil {
 		return err
 	}
