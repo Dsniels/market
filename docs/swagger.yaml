@@ -1,0 +1,206 @@
+definitions:
+  pkg.Body-array_types_Categoria:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/types.Categoria'
+        type: array
+    type: object
+  pkg.Body-array_types_Producto:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/types.Producto'
+        type: array
+    type: object
+  pkg.Body-string:
+    properties:
+      data:
+        type: string
+    type: object
+  pkg.Body-types_Categoria:
+    properties:
+      data:
+        $ref: '#/definitions/types.Categoria'
+    type: object
+  pkg.Body-types_Producto:
+    properties:
+      data:
+        $ref: '#/definitions/types.Producto'
+    type: object
+  types.Categoria:
+    properties:
+      id:
+        type: integer
+      nombre:
+        type: string
+    type: object
+  types.Producto:
+    properties:
+      categoriaID:
+        type: integer
+      id:
+        type: integer
+      imagen:
+        type: string
+      nombre:
+        type: string
+      precio:
+        type: number
+      stock:
+        type: boolean
+    type: object
+info:
+  contact: {}
+paths:
+  /Categoria/:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Categoria data
+        in: body
+        name: categoria
+        required: true
+        schema:
+          $ref: '#/definitions/types.Categoria'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/pkg.Body-types_Categoria'
+      summary: Create a categoria
+      tags:
+      - categorias
+  /Categoria/DeleteByID/{id}:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: categoria ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/pkg.Body-string'
+      summary: Delete a categoria by ID
+      tags:
+      - categorias
+  /Categoria/GetAll:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/pkg.Body-array_types_Categoria'
+      summary: Get categorias
+      tags:
+      - categorias
+  /Categoria/GetByID/{id}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Categoria ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/pkg.Body-types_Categoria'
+      summary: Get categorias
+      tags:
+      - categorias
+  /Product/:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Product data
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/types.Producto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/pkg.Body-types_Producto'
+      summary: Create a new product
+      tags:
+      - products
+  /Product/DeleteByID/{id}:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/pkg.Body-string'
+      summary: Delete a product by ID
+      tags:
+      - products
+  /Product/GetAll:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/pkg.Body-array_types_Producto'
+      summary: Get all products
+      tags:
+      - products
+  /Product/GetByID/{id}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/pkg.Body-types_Producto'
+      summary: Get a product by ID
+      tags:
+      - products
+swagger: "2.0"
