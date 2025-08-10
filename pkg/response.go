@@ -15,7 +15,7 @@ func Response[T any](w http.ResponseWriter, code int, data T) {
 	body := &Body[T]{
 		Data: data,
 	}
-	b, _ := json.Marshal(body)
+	b, _ := json.MarshalIndent(body, "", " ")
 	w.WriteHeader(code)
 	w.Header().Set("content-type", "application/json")
 	w.Write(b)
@@ -28,6 +28,9 @@ func GetIDFromUrl[T string | uint | int64](r *http.Request) T {
 	switch any(t).(type) {
 	case string:
 		return any(id).(T)
+	case uint:
+		i, _ := strconv.Atoi(id)
+		return any(uint(i)).(T)
 	default:
 		i, _ := strconv.Atoi(id)
 		return any(i).(T)

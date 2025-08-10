@@ -26,3 +26,11 @@ func NotFound(args ...string) {
 	}
 	PanicException(http.StatusNotFound, msg)
 }
+
+func DuplicatedKey(args ...string) {
+	msg := "record already exists"
+	if len(args) > 0 {
+		msg = strings.Join(args, "~")
+	}
+	PanicException(409, msg)
+}
