@@ -36,10 +36,9 @@ type FormaPago struct {
 }
 
 type ProductoCompuesto struct {
-	Base                `gorm:"embedded"`
-	ProductoPrincipalID uint
-	ProductoPrincipal   Producto `gorm:"foreignKey:ProductoPrincipalID;references:ID"`
-
+	Base                 `gorm:"embedded"`
+	ProductoPrincipalID  uint
+	ProductoPrincipal    Producto `gorm:"foreignKey:ProductoPrincipalID;references:ID"`
 	ProductoComponenteID uint
 	ProductoComponente   Producto `gorm:"foreignKey:ProductoComponenteID;references:ID"`
 }
