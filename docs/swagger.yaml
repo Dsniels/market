@@ -3,10 +3,10 @@ definitions:
     properties:
       id:
         type: integer
-      producto_compuesto:
-        $ref: '#/definitions/types.Producto'
-      producto_principal:
-        $ref: '#/definitions/types.Producto'
+      productoComponenteID:
+        type: integer
+      productoPrincipalID:
+        type: integer
     type: object
   pkg.Body-array_types_Categoria:
     properties:
@@ -34,6 +34,13 @@ definitions:
       data:
         items:
           $ref: '#/definitions/types.ProductoCompuesto'
+        type: array
+    type: object
+  pkg.Body-array_types_Sucursal:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/types.Sucursal'
         type: array
     type: object
   pkg.Body-dto_ProductoComp:
@@ -65,6 +72,11 @@ definitions:
     properties:
       data:
         $ref: '#/definitions/types.ProductoCompuesto'
+    type: object
+  pkg.Body-types_Sucursal:
+    properties:
+      data:
+        $ref: '#/definitions/types.Sucursal'
     type: object
   types.Categoria:
     properties:
@@ -99,15 +111,32 @@ definitions:
     properties:
       id:
         type: integer
+      productoComponente:
+        $ref: '#/definitions/types.Producto'
       productoComponenteID:
         type: integer
+      productoPrincipal:
+        $ref: '#/definitions/types.Producto'
       productoPrincipalID:
         type: integer
+    type: object
+  types.Sucursal:
+    properties:
+      activo:
+        type: boolean
+      direccion:
+        type: string
+      id:
+        type: integer
+      nombre:
+        type: string
+      telefono:
+        type: string
     type: object
 info:
   contact: {}
 paths:
-  /Categoria/Create:
+  /api/Categoria/Create:
     post:
       consumes:
       - application/json
@@ -128,7 +157,7 @@ paths:
       summary: Create a categoria
       tags:
       - categorias
-  /Categoria/DeleteByID/{id}:
+  /api/Categoria/DeleteByID/{id}:
     post:
       consumes:
       - application/json
@@ -148,7 +177,7 @@ paths:
       summary: Delete a categoria by ID
       tags:
       - categorias
-  /Categoria/GetAll:
+  /api/Categoria/GetAll:
     get:
       consumes:
       - application/json
@@ -162,7 +191,7 @@ paths:
       summary: Get categorias
       tags:
       - categorias
-  /Categoria/GetByID/{id}:
+  /api/Categoria/GetByID/{id}:
     get:
       consumes:
       - application/json
@@ -182,7 +211,7 @@ paths:
       summary: Get categorias
       tags:
       - categorias
-  /FormaPago/Create:
+  /api/FormaPago/Create:
     post:
       consumes:
       - application/json
@@ -203,7 +232,7 @@ paths:
       summary: Create a FormaPago
       tags:
       - FormaPago
-  /FormaPago/DeleteByID/{id}:
+  /api/FormaPago/DeleteByID/{id}:
     post:
       consumes:
       - application/json
@@ -223,7 +252,7 @@ paths:
       summary: Delete a FormaPago by ID
       tags:
       - FormaPago
-  /FormaPago/GetAll:
+  /api/FormaPago/GetAll:
     get:
       consumes:
       - application/json
@@ -237,7 +266,7 @@ paths:
       summary: Get FormaPago
       tags:
       - FormaPago
-  /FormaPago/GetByID/{id}:
+  /api/FormaPago/GetByID/{id}:
     get:
       consumes:
       - application/json
@@ -257,7 +286,7 @@ paths:
       summary: Get FormaPago
       tags:
       - FormaPago
-  /Product/Create:
+  /api/Product/Create:
     post:
       consumes:
       - application/json
@@ -278,7 +307,7 @@ paths:
       summary: Create a new product
       tags:
       - products
-  /Product/DeleteByID/{id}:
+  /api/Product/DeleteByID/{id}:
     post:
       consumes:
       - application/json
@@ -298,7 +327,7 @@ paths:
       summary: Delete a product by ID
       tags:
       - products
-  /Product/GetAll:
+  /api/Product/GetAll:
     get:
       consumes:
       - application/json
@@ -312,7 +341,7 @@ paths:
       summary: Get all products
       tags:
       - products
-  /Product/GetByID/{id}:
+  /api/Product/GetByID/{id}:
     get:
       consumes:
       - application/json
@@ -332,7 +361,7 @@ paths:
       summary: Get a product by ID
       tags:
       - products
-  /Product/Update/{id}:
+  /api/Product/Update/{id}:
     post:
       consumes:
       - application/json
@@ -358,7 +387,7 @@ paths:
       summary: Update a product
       tags:
       - products
-  /ProductComp/Create:
+  /api/ProductComp/Create:
     post:
       consumes:
       - application/json
@@ -368,7 +397,7 @@ paths:
         name: product
         required: true
         schema:
-          $ref: '#/definitions/types.ProductoCompuesto'
+          $ref: '#/definitions/dto.ProductoComp'
       produces:
       - application/json
       responses:
@@ -379,7 +408,7 @@ paths:
       summary: Create a new productComp
       tags:
       - products
-  /ProductComp/DeleteByID/{id}:
+  /api/ProductComp/DeleteByID/{id}:
     post:
       consumes:
       - application/json
@@ -399,7 +428,7 @@ paths:
       summary: Delete a productComp by ID
       tags:
       - products
-  /ProductComp/GetAll:
+  /api/ProductComp/GetAll:
     get:
       consumes:
       - application/json
@@ -413,7 +442,7 @@ paths:
       summary: Get all products
       tags:
       - products
-  /ProductComp/GetByID/{id}:
+  /api/ProductComp/GetByID/{id}:
     get:
       consumes:
       - application/json
@@ -433,4 +462,105 @@ paths:
       summary: Get a product by ID
       tags:
       - products
+  /api/Sucursal/Create:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Sucursal data
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/types.Sucursal'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/pkg.Body-types_Sucursal'
+      summary: Create a new sucursal
+      tags:
+      - Sucursal
+  /api/Sucursal/DeleteByID/{id}:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Sucursal ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/pkg.Body-string'
+      summary: Delete a sucursal by ID
+      tags:
+      - Sucursal
+  /api/Sucursal/GetAll:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/pkg.Body-array_types_Sucursal'
+      summary: Get all Sucursales
+      tags:
+      - Sucursal
+  /api/Sucursal/GetByID/{id}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Sucursal ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/pkg.Body-types_Sucursal'
+      summary: Get a sucursal by ID
+      tags:
+      - Sucursal
+  /api/Sucursal/Update/{id}:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Sucursal ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Sucursal data
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/types.Sucursal'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/pkg.Body-types_Sucursal'
+      summary: Update a sucursal
+      tags:
+      - Sucursal
 swagger: "2.0"

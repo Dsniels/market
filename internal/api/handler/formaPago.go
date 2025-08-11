@@ -23,7 +23,7 @@ type FormaPago struct {
 // @Produce json
 // @Param id path int true "FormaPago ID"
 // @Success 200 {object} pkg.Body[types.FormaPago]
-// @Router /FormaPago/GetByID/{id} [get]
+// @Router /api/FormaPago/GetByID/{id} [get]
 func (c *FormaPago) GetFormaPagoHandler(w http.ResponseWriter, r *http.Request) {
 	id := pkg.GetIDFromUrl[uint](r)
 	FormaPago, err := c.FormaPagovc.GetFormaPago(r.Context(), id)
@@ -43,7 +43,7 @@ func (c *FormaPago) GetFormaPagoHandler(w http.ResponseWriter, r *http.Request) 
 // @Accept json
 // @Produce json
 // @Success 200 {object} pkg.Body[[]types.FormaPago]
-// @Router /FormaPago/GetAll [get]
+// @Router /api/FormaPago/GetAll [get]
 func (c *FormaPago) GetFormasPagoHandler(w http.ResponseWriter, r *http.Request) {
 	FormasPago, err := c.FormaPagovc.GetFormaPagos(r.Context())
 	if err != nil {
@@ -60,7 +60,7 @@ func (c *FormaPago) GetFormasPagoHandler(w http.ResponseWriter, r *http.Request)
 // @Produce json
 // @Param FormaPago body types.FormaPago true "FormaPago data"
 // @Success 200 {object} pkg.Body[types.FormaPago]
-// @Router /FormaPago/Create [post]
+// @Router /api/FormaPago/Create [post]
 func (c *FormaPago) CreateFormaPagoHandler(w http.ResponseWriter, r *http.Request) {
 	FormaPago := new(types.FormaPago)
 	err := json.NewDecoder(r.Body).Decode(FormaPago)
@@ -84,7 +84,7 @@ func (c *FormaPago) CreateFormaPagoHandler(w http.ResponseWriter, r *http.Reques
 // @Produce json
 // @Param id path int true "FormaPago ID"
 // @Success 200 {object} pkg.Body[string]
-// @Router /FormaPago/DeleteByID/{id} [post]
+// @Router /api/FormaPago/DeleteByID/{id} [post]
 func (c *FormaPago) DeleteFormaPagoHandler(w http.ResponseWriter, r *http.Request) {
 	id := pkg.GetIDFromUrl[uint](r)
 	_, err := c.FormaPagovc.GetFormaPago(r.Context(), id)

@@ -23,7 +23,7 @@ type Categoria struct {
 // @Produce json
 // @Param id path int true "Categoria ID"
 // @Success 200 {object} pkg.Body[types.Categoria]
-// @Router /Categoria/GetByID/{id} [get]
+// @Router /api/Categoria/GetByID/{id} [get]
 func (c *Categoria) GetCategoriaHandler(w http.ResponseWriter, r *http.Request) {
 	id := pkg.GetIDFromUrl[uint](r)
 	categoria, err := c.categoriaSvc.GetCategoria(r.Context(), id)
@@ -43,7 +43,7 @@ func (c *Categoria) GetCategoriaHandler(w http.ResponseWriter, r *http.Request) 
 // @Accept json
 // @Produce json
 // @Success 200 {object} pkg.Body[[]types.Categoria]
-// @Router /Categoria/GetAll [get]
+// @Router /api/Categoria/GetAll [get]
 func (c *Categoria) GetCategoriasHandler(w http.ResponseWriter, r *http.Request) {
 	categorias, err := c.categoriaSvc.GetCategorias(r.Context())
 	if err != nil {
@@ -60,7 +60,7 @@ func (c *Categoria) GetCategoriasHandler(w http.ResponseWriter, r *http.Request)
 // @Produce json
 // @Param categoria body types.Categoria true "Categoria data"
 // @Success 200 {object} pkg.Body[types.Categoria]
-// @Router /Categoria/Create [post]
+// @Router /api/Categoria/Create [post]
 func (c *Categoria) CreateCategoriaHandler(w http.ResponseWriter, r *http.Request) {
 	categoria := new(types.Categoria)
 	err := json.NewDecoder(r.Body).Decode(categoria)
@@ -84,7 +84,7 @@ func (c *Categoria) CreateCategoriaHandler(w http.ResponseWriter, r *http.Reques
 // @Produce json
 // @Param id path int true "categoria ID"
 // @Success 200 {object} pkg.Body[string]
-// @Router /Categoria/DeleteByID/{id} [post]
+// @Router /api/Categoria/DeleteByID/{id} [post]
 func (c *Categoria) DeleteCategoriaHandler(w http.ResponseWriter, r *http.Request) {
 	id := pkg.GetIDFromUrl[uint](r)
 	_, err := c.categoriaSvc.GetCategoria(r.Context(), id)

@@ -22,7 +22,7 @@ type Producto struct {
 // @Accept json
 // @Produce json
 // @Success 200 {object} pkg.Body[[]types.Producto]
-// @Router /Product/GetAll [get]
+// @Router /api/Product/GetAll [get]
 func (p *Producto) GetProductsHandler(w http.ResponseWriter, r *http.Request) {
 	products, err := p.productoSvc.GetProductos(r.Context())
 	if err != nil {
@@ -38,7 +38,7 @@ func (p *Producto) GetProductsHandler(w http.ResponseWriter, r *http.Request) {
 // @Produce json
 // @Param id path int true "Product ID"
 // @Success 200 {object} pkg.Body[types.Producto]
-// @Router /Product/GetByID/{id} [get]
+// @Router /api/Product/GetByID/{id} [get]
 func (p *Producto) GetProductHandler(w http.ResponseWriter, r *http.Request) {
 	id := pkg.GetIDFromUrl[uint](r)
 
@@ -60,7 +60,7 @@ func (p *Producto) GetProductHandler(w http.ResponseWriter, r *http.Request) {
 // @Param id path int true "Product ID"
 // @Param product body types.Producto true "Product data"
 // @Success 200 {object} pkg.Body[types.Producto]
-// @Router /Product/Update/{id} [post]
+// @Router /api/Product/Update/{id} [post]
 func (p *Producto) UpdateProductHandler(w http.ResponseWriter, r *http.Request) {
 	product := new(types.Producto)
 	err := json.NewDecoder(r.Body).Decode(product)
@@ -82,7 +82,7 @@ func (p *Producto) UpdateProductHandler(w http.ResponseWriter, r *http.Request) 
 // @Produce json
 // @Param product body types.Producto true "Product data"
 // @Success 200 {object} pkg.Body[types.Producto]
-// @Router /Product/Create [post]
+// @Router /api/Product/Create [post]
 func (p *Producto) CreateProductHandler(w http.ResponseWriter, r *http.Request) {
 	product := new(types.Producto)
 	err := json.NewDecoder(r.Body).Decode(product)
@@ -103,7 +103,7 @@ func (p *Producto) CreateProductHandler(w http.ResponseWriter, r *http.Request) 
 // @Produce json
 // @Param id path int true "Product ID"
 // @Success 200 {object} pkg.Body[string]
-// @Router /Product/DeleteByID/{id} [post]
+// @Router /api/Product/DeleteByID/{id} [post]
 func (p *Producto) DeleteProductHandler(w http.ResponseWriter, r *http.Request) {
 
 	id := pkg.GetIDFromUrl[uint](r)

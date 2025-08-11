@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/Categoria/Create": {
+        "/api/Categoria/Create": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -48,7 +48,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/Categoria/DeleteByID/{id}": {
+        "/api/Categoria/DeleteByID/{id}": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -79,7 +79,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/Categoria/GetAll": {
+        "/api/Categoria/GetAll": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -101,7 +101,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/Categoria/GetByID/{id}": {
+        "/api/Categoria/GetByID/{id}": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -132,7 +132,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/FormaPago/Create": {
+        "/api/FormaPago/Create": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -165,7 +165,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/FormaPago/DeleteByID/{id}": {
+        "/api/FormaPago/DeleteByID/{id}": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -196,7 +196,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/FormaPago/GetAll": {
+        "/api/FormaPago/GetAll": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -218,7 +218,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/FormaPago/GetByID/{id}": {
+        "/api/FormaPago/GetByID/{id}": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -249,7 +249,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/Product/Create": {
+        "/api/Product/Create": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -282,7 +282,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/Product/DeleteByID/{id}": {
+        "/api/Product/DeleteByID/{id}": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -313,7 +313,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/Product/GetAll": {
+        "/api/Product/GetAll": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -335,7 +335,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/Product/GetByID/{id}": {
+        "/api/Product/GetByID/{id}": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -366,7 +366,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/Product/Update/{id}": {
+        "/api/Product/Update/{id}": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -406,7 +406,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/ProductComp/Create": {
+        "/api/ProductComp/Create": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -425,7 +425,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/types.ProductoCompuesto"
+                            "$ref": "#/definitions/dto.ProductoComp"
                         }
                     }
                 ],
@@ -439,7 +439,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/ProductComp/DeleteByID/{id}": {
+        "/api/ProductComp/DeleteByID/{id}": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -470,7 +470,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/ProductComp/GetAll": {
+        "/api/ProductComp/GetAll": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -492,7 +492,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/ProductComp/GetByID/{id}": {
+        "/api/ProductComp/GetByID/{id}": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -522,6 +522,163 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/api/Sucursal/Create": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Sucursal"
+                ],
+                "summary": "Create a new sucursal",
+                "parameters": [
+                    {
+                        "description": "Sucursal data",
+                        "name": "product",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/types.Sucursal"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pkg.Body-types_Sucursal"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Sucursal/DeleteByID/{id}": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Sucursal"
+                ],
+                "summary": "Delete a sucursal by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Sucursal ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pkg.Body-string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Sucursal/GetAll": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Sucursal"
+                ],
+                "summary": "Get all Sucursales",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pkg.Body-array_types_Sucursal"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Sucursal/GetByID/{id}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Sucursal"
+                ],
+                "summary": "Get a sucursal by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Sucursal ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pkg.Body-types_Sucursal"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/Sucursal/Update/{id}": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Sucursal"
+                ],
+                "summary": "Update a sucursal",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Sucursal ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Sucursal data",
+                        "name": "product",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/types.Sucursal"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/pkg.Body-types_Sucursal"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -531,11 +688,11 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
-                "producto_compuesto": {
-                    "$ref": "#/definitions/types.Producto"
+                "productoComponenteID": {
+                    "type": "integer"
                 },
-                "producto_principal": {
-                    "$ref": "#/definitions/types.Producto"
+                "productoPrincipalID": {
+                    "type": "integer"
                 }
             }
         },
@@ -579,6 +736,17 @@ const docTemplate = `{
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/types.ProductoCompuesto"
+                    }
+                }
+            }
+        },
+        "pkg.Body-array_types_Sucursal": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/types.Sucursal"
                     }
                 }
             }
@@ -628,6 +796,14 @@ const docTemplate = `{
             "properties": {
                 "data": {
                     "$ref": "#/definitions/types.ProductoCompuesto"
+                }
+            }
+        },
+        "pkg.Body-types_Sucursal": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/types.Sucursal"
                 }
             }
         },
@@ -682,11 +858,37 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
+                "productoComponente": {
+                    "$ref": "#/definitions/types.Producto"
+                },
                 "productoComponenteID": {
                     "type": "integer"
                 },
+                "productoPrincipal": {
+                    "$ref": "#/definitions/types.Producto"
+                },
                 "productoPrincipalID": {
                     "type": "integer"
+                }
+            }
+        },
+        "types.Sucursal": {
+            "type": "object",
+            "properties": {
+                "activo": {
+                    "type": "boolean"
+                },
+                "direccion": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "nombre": {
+                    "type": "string"
+                },
+                "telefono": {
+                    "type": "string"
                 }
             }
         }

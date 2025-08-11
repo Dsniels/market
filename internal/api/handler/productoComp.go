@@ -5,7 +5,7 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/dsniels/market/core/types"
+	"github.com/dsniels/market/core/dto"
 	"github.com/dsniels/market/internal/services"
 	"github.com/dsniels/market/pkg"
 	"gorm.io/gorm"
@@ -21,7 +21,7 @@ type ProductoComp struct {
 // @Accept json
 // @Produce json
 // @Success 200 {object} pkg.Body[[]types.ProductoCompuesto]
-// @Router /ProductComp/GetAll [get]
+// @Router /api/ProductComp/GetAll [get]
 func (p *ProductoComp) GetProductsHandler(w http.ResponseWriter, r *http.Request) {
 	products, err := p.productoSvc.GetProductos(r.Context())
 	if err != nil {
@@ -37,7 +37,7 @@ func (p *ProductoComp) GetProductsHandler(w http.ResponseWriter, r *http.Request
 // @Produce json
 // @Param id path int true "Product ID"
 // @Success 200 {object} pkg.Body[dto.ProductoComp]
-// @Router /ProductComp/GetByID/{id} [get]
+// @Router /api/ProductComp/GetByID/{id} [get]
 func (p *ProductoComp) GetProductHandler(w http.ResponseWriter, r *http.Request) {
 	id := pkg.GetIDFromUrl[uint](r)
 	product, err := p.productoSvc.GetProducto(r.Context(), id)
@@ -55,11 +55,11 @@ func (p *ProductoComp) GetProductHandler(w http.ResponseWriter, r *http.Request)
 // @Tags products
 // @Accept json
 // @Produce json
-// @Param product body types.ProductoCompuesto true "Product data"
+// @Param product body dto.ProductoComp true "Product data"
 // @Success 200 {object} pkg.Body[types.ProductoCompuesto]
-// @Router /ProductComp/Create [post]
+// @Router /api/ProductComp/Create [post]
 func (p *ProductoComp) CreateProductHandler(w http.ResponseWriter, r *http.Request) {
-	product := new(types.ProductoCompuesto)
+	product := new(dto.ProductoComp)
 	err := json.NewDecoder(r.Body).Decode(product)
 	if err != nil {
 		pkg.BadRequest(err.Error())
@@ -79,7 +79,7 @@ func (p *ProductoComp) CreateProductHandler(w http.ResponseWriter, r *http.Reque
 // @Produce json
 // @Param id path int true "Product ID"
 // @Success 200 {object} pkg.Body[string]
-// @Router /ProductComp/DeleteByID/{id} [post]
+// @Router /api/ProductComp/DeleteByID/{id} [post]
 func (p *ProductoComp) DeleteProductHandler(w http.ResponseWriter, r *http.Request) {
 
 	id := pkg.GetIDFromUrl[uint](r)
