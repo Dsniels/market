@@ -16,6 +16,12 @@ func InitRoutes(a *api.App) http.Handler {
 	route.HandleFunc("POST /Product/Update/{id}", a.Product.UpdateProductHandler)
 	route.HandleFunc("POST /Product/DeleteByID/{id}", a.Product.DeleteProductHandler)
 
+	route.HandleFunc("GET /Sucursal/GetAll", a.Sucursal.GetSucursalsHandler)
+	route.HandleFunc("GET /Sucursal/GetByID/{id}", a.Sucursal.GetSucursalHandler)
+	route.HandleFunc("POST /Sucursal/Create", a.Sucursal.CreateSucursalHandler)
+	route.HandleFunc("POST /Sucursal/Update/{id}", a.Sucursal.UpdateSucursalHandler)
+	route.HandleFunc("POST /Sucursal/DeleteByID/{id}", a.Sucursal.DeleteSucursalHandler)
+
 	route.HandleFunc("GET /Categoria/GetByID/{id}", a.Categoria.GetCategoriaHandler)
 	route.HandleFunc("GET /Categoria/GetAll", a.Categoria.GetCategoriasHandler)
 	route.HandleFunc("POST /Categoria/Create", a.Categoria.CreateCategoriaHandler)
@@ -32,7 +38,7 @@ func InitRoutes(a *api.App) http.Handler {
 	route.HandleFunc("POST /ProductComp/DeleteByID/{id}", a.ProductComp.DeleteProductHandler)
 
 	router := http.NewServeMux()
-	router.Handle("/api", route)
+	router.Handle("/api/", http.StripPrefix("/api", route))
 	router.HandleFunc("GET /swagger/", httpSwagger.WrapHandler)
 	return router
 }

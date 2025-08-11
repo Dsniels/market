@@ -14,6 +14,7 @@ type App struct {
 	ProductComp *handler.ProductoComp
 	Categoria   *handler.Categoria
 	FormaPago   *handler.FormaPago
+	Sucursal    *handler.Sucursal
 }
 
 func NewApp() *App {
@@ -32,17 +33,23 @@ func NewApp() *App {
 	productSvc := services.NewProducto(productRepo, categoriaSvc)
 	productHandler := handler.NewProducto(productSvc)
 	productCompRepo := repo.NewProductoComp(db)
-	productCompSvc := services.NewProductoComp(productCompRepo)
+	productCompSvc := services.NewProductoComp(productCompRepo, productSvc)
 	productCompHandler := handler.NewProductoComp(productCompSvc)
 
 	formaPagoRepo := repo.NewFormaPago(db)
 	formaPagoSvc := services.NewFormaPago(formaPagoRepo)
 	formaPago := handler.NewFormaPago(formaPagoSvc)
 
+	sucursalRepo := repo.NewSucursal(db)
+	sucursalSvc := services.NewSucursal(sucursalRepo)
+	sucursal := handler.NewSucursal(sucursalSvc)
+
 	return &App{
 		Product:     productHandler,
 		Categoria:   categoriaHandler,
 		ProductComp: productCompHandler,
 		FormaPago:   formaPago,
+		Sucursal:    sucursal,
 	}
+
 }
