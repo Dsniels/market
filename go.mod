@@ -3,9 +3,11 @@ module github.com/dsniels/market
 go 1.24.5
 
 require (
+	github.com/golang-jwt/jwt/v5 v5.2.2
 	github.com/joho/godotenv v1.5.1
 	github.com/swaggo/http-swagger/v2 v2.0.2
 	github.com/swaggo/swag v1.16.6
+	golang.org/x/crypto v0.41.0
 	gorm.io/driver/sqlserver v1.6.1
 	gorm.io/gorm v1.30.1
 )
@@ -25,7 +27,6 @@ require (
 	github.com/mailru/easyjson v0.9.0 // indirect
 	github.com/microsoft/go-mssqldb v1.8.2 // indirect
 	github.com/swaggo/files/v2 v2.0.0 // indirect
-	golang.org/x/crypto v0.41.0 // indirect
 	golang.org/x/mod v0.27.0 // indirect
 	golang.org/x/sync v0.16.0 // indirect
 	golang.org/x/text v0.28.0 // indirect
