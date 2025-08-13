@@ -5,7 +5,9 @@ import (
 	"gorm.io/gorm"
 )
 
-type ISucursal interface{}
+type ISucursal interface {
+	IGeneric[types.Sucursal]
+}
 type Sucursal struct {
 	*Generic[types.Sucursal]
 }
