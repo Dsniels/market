@@ -44,6 +44,14 @@ func NewApp() *App {
 	sucursalSvc := services.NewSucursal(sucursalRepo)
 	sucursal := handler.NewSucursal(sucursalSvc)
 
+	userRepo := repo.NewUser(db)
+	_ = services.NewUser(userRepo)
+	// user := handler.NewUser(userSvc)
+
+	terminalRepo := repo.NewTerminal(db)
+	_ = services.NewTerminal(terminalRepo)
+	// terminal := handler.NewTerminal(sucursalSvc)
+
 	return &App{
 		Product:     productHandler,
 		Categoria:   categoriaHandler,

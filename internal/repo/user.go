@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/dsniels/market/core/types"
+	"gorm.io/gorm"
 )
 
 type IUser interface {
@@ -24,6 +25,9 @@ func (u *User) GetByEmail(ctx context.Context, email string) (*types.User, error
 	return user, nil
 }
 
-func NewUser() *User {
-	return &User{}
+func NewUser(db *gorm.DB) *User {
+	g := NewGeneric[types.User](db)
+	return &User{
+		Generic: g,
+	}
 }
