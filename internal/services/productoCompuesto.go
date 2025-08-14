@@ -14,27 +14,34 @@ type ProductoComp struct {
 }
 
 type IProductoComp interface {
-	CreateProducto(ctx context.Context, producto *types.ProductoCompuesto) error
+	CreateProducto(ctx context.Context, producto *dto.ProductoComp) error
 	GetProductos(ctx context.Context) (*[]types.ProductoCompuesto, error)
-	GetProducto(ctx context.Context, id uint) (*dto.ProductoComp, error)
+	GetProducto(ctx context.Context, id uint) (*types.ProductoCompuesto, error)
 	DeleteProducto(ctx context.Context, id uint) error
 }
 
-func (p *ProductoComp) CreateProducto(ctx context.Context, prod *types.ProductoCompuesto) error {
-	_, err := p.productoSvc.GetProducto(ctx, prod.ProductoComponenteID)
+func (p *ProductoComp) CreateProducto(ctx context.Context, prod *dto.ProductoComp) error {
+	prodComp, err := p.productoSvc.GetProducto(ctx, prod.ProductoComponenteID)
 	if err != nil {
 		return err
 	}
 
-	_, err = p.productoSvc.GetProducto(ctx, prod.ProductoPrincipalID)
+	prodPrincipal, err := p.productoSvc.GetProducto(ctx, prod.ProductoPrincipalID)
 	if err != nil {
 		return err
 	}
 
-	err = p.repo.Create(ctx, prod)
+	comp := new(types.ProductoCompuesto)
+	comp.ProductoComponenteID = prodComp.ID
+	comp.ProductoComponente = *prodComp
+	comp.ProductoPrincipalID = prodPrincipal.ID
+	comp.ProductoPrincipal = *prodPrincipal
+
+	err = p.repo.Create(ctx, comp)
 	if err != nil {
 		return err
 	}
+	prod.ID = comp.ID
 
 	return nil
 }
@@ -47,24 +54,14 @@ func (c *ProductoComp) GetProductos(ctx context.Context) (*[]types.ProductoCompu
 	return list, err
 }
 
-func (p *ProductoComp) GetProducto(ctx context.Context, id uint) (*dto.ProductoComp, error) {
-	dto := new(dto.ProductoComp)
-	head, err := p.repo.GetById(ctx, id)
-	if err != nil {
-		return nil, err
-	}
-	principal, err := p.productoSvc.GetProducto(ctx, head.ProductoPrincipalID)
+func (p *ProductoComp) GetProducto(ctx context.Context, id uint) (*types.ProductoCompuesto, error) {
+
+	obj, err := p.repo.GetById(ctx, id)
 	if err != nil {
 		return nil, err
 	}
 
-	comp, err := p.productoSvc.GetProducto(ctx, head.ProductoComponenteID)
-	if err != nil {
-		return nil, err
-	}
-	dto.ProductoCompuesto = comp
-	dto.ProductoPrincipal = principal
-	return dto, nil
+	return obj, nil
 
 }
 
@@ -76,8 +73,9 @@ func (c *ProductoComp) DeleteProducto(ctx context.Context, id uint) error {
 	return nil
 }
 
-func NewProductoComp(repo repo.IProductoComp) *ProductoComp {
+func NewProductoComp(repo repo.IProductoComp, productoSvc IProducto) *ProductoComp {
 	return &ProductoComp{
-		repo: repo,
+		productoSvc: productoSvc,
+		repo:        repo,
 	}
 }

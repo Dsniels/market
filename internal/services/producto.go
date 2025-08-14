@@ -64,7 +64,6 @@ func (p *Producto) UpdateProducto(ctx context.Context, producto *types.Producto,
 		return nil, err
 	}
 	producto.ID = id
-
 	newProducto, err := p.repo.Update(producto)
 	if err != nil {
 		return nil, err
