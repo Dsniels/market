@@ -34,6 +34,7 @@ func (g *Generic[T]) Delete(ctx context.Context, id uint) error {
 	return nil
 }
 
+
 func (g *Generic[T]) GetList(ctx context.Context) (*[]T, error) {
 	records, err := gorm.G[T](g.db).Find(ctx)
 	if err != nil {
